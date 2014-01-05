@@ -24,22 +24,31 @@ pdeb    = winston.warn
 _.mixin(_.str.exports());
 _.str.include('Underscore.string', 'string');
 
+o = (x, s, mt) ->
+  { expression: x, substitute: s, materials: mt }
+
+ikea-bianco       = { 'material-0': 'bianco-ikea' }
+ikea-grigio       = { 'material-0': 'grigio-ikea'}
+ikea-bianco-vetro = { 'material-0': 'bianco-ikea', 'material-1': 'vetro' }
+luce              = { 'material-0': 'luce' }
+vetro             = { 'material-0': 'vetro'}
+
 _module = ->
 
     matches = [
-      { expression: "expedit_white_1x1"                   , substitute: "expedit-1x1-ikea"           , materials: { 'material-0': 'bianco-ikea'}}
-      { expression: "expedit_white_2x2"                   , substitute: "expedit-2x2-ikea"           , materials: { 'material-0': 'bianco-ikea'}}
-      { expression: "detail"                              , substitute: "vaso-anonimo" }
-      { expression: "rattan"                              , substitute: "rattan-ikea" }
-      { expression: "besta___60x40x64_white"              , substitute: "besta_60x40x64_white_ikea"  , materials: { 'material-0': 'bianco-ikea'}}
-      { expression: "IDIKE_"                              , substitute: "besta_60x40x64_white_ikea"  , materials: { 'material-0': 'bianco-ikea'}}
-      { expression: "besta___anta___60x64_grey_turquoise" , substitute: "besta_60x64_turquoise_ikea" , materials: { 'material-0': 'grigio-ikea'}}
-      { expression: "IDIK_"                               , substitute: "besta_60x64_gray_ikea"      , materials: { 'material-0': 'grigio-ikea'}}
-      { expression: "besta___anta___60x64_white"          , substitute: "besta_60x64_white_ikea"     , materials: { 'material-0': 'bianco-ikea'     , 'material-1': 'vetro'} }
-      { expression: "fronts_BESTA_VARA"                   ,                                          , substitute: "besta_anta_cassetto_white_ikea" , materials: { 'material-0': 'bianco-ikea'}}
-      { expression: "CDs"                                 , substitute: "pila-di-cd"}
-      { expression: "Series_680"                          , substitute: "finestra-balcone"           , materials: { 'material-0': 'luce'} }
-      { expression: "BESTA_Shelf_Glass"                   , substitute: "besta_mensola_vetro_ikea"   , materials: { 'material-0': 'vetro'} }
+      o "expedit_white_1x1"                   , "expedit-1x1-ikea"               , ikea-bianco
+      o "expedit_white_2x2"                   , "expedit-2x2-ikea"               , ikea-bianco
+      o "detail"                              , "vaso-anonimo" 
+      o "rattan"                              , "rattan-ikea"
+      o "besta___60x40x64_white"              , "besta_60x40x64_white_ikea"      , ikea-bianco
+      o "IDIKE_"                              , "besta_60x40x64_white_ikea"      , ikea-bianco
+      o "besta___anta___60x64_grey_turquoise" , "besta_60x64_turquoise_ikea"     , ikea-grigio
+      o "IDIK_"                               , "besta_60x64_gray_ikea"          , ikea-grigio 
+      o "besta___anta___60x64_white"          , "besta_60x64_white_ikea"         , ikea-bianco-vetro
+      o "fronts_BESTA_VARA"                   , "besta_anta_cassetto_white_ikea" , ikea-bianco
+      o "CDs"                                 , "pila-di-cd"
+      o "Series_680"                          , "finestra-balcone"               , luce
+      o "BESTA_Shelf_Glass"                   , "besta_mensola_vetro_ikea"       , vetro 
     ]
 
           
