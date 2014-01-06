@@ -49,7 +49,7 @@ print-stats = (d) ->
   console.log "Cameras:"     , d.COLLADA.library_cameras.camera.length
 
 
-{ matches } = require('./config')
+{ matches, cameras } = require('./config')
 
 material-change = { } 
 changed-names = []
@@ -113,6 +113,35 @@ parse-node-tree = (root-node) ->
     if n.node?
       parse-node-tree(n)
 
+fix-up-camera-ids = (root-node) ->
+
+  for n in root-node.node 
+
+    if n.instance_camera?.url?
+      cname = sid n.instance_camera?.url
+
+      for cc in cameras 
+        if cname.match(cc.source)
+          n.instance_camera.url = "\##{cc.dest}"
+
+        if n.name.match(cc.source)      
+           n.name = cc.dest
+
+    if n.node?
+      fix-up-camera-ids(n)
+
+fix-up-camera-lib = (lm) ->
+  var lmm
+  if _.is-array(lm.camera)
+      lmm := lm.camera 
+  else 
+      lmm := [ lm.camera ]
+  for c in lmm 
+    for cc in cameras 
+      if c.id.match(cc.source)
+        c.id = cc.dest
+        c.name = cc.dest
+
 require! 'optimist'
 
 argv     = optimist.usage(usage-string,
@@ -140,8 +169,13 @@ data = require("#cwd/"+command[0])
 if argv.stats
   print-stats(data)
 else 
+
  parse-node-tree(data.COLLADA.library_visual_scenes.visual_scene)
  fix-materials(data.COLLADA.library_materials)
+
+ fix-up-camera-ids(data.COLLADA.library_visual_scenes.visual_scene)
+ fix-up-camera-lib(data.COLLADA.library_cameras)
+
  console.log '<?xml version="1.0" encoding="UTF-8"?>'
  console.log require('xml-mapping').dump(data);
 

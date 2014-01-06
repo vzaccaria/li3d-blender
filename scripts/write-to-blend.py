@@ -11,7 +11,7 @@ def loadMaterial(name):
 		active_layer=True)	
 	
 
-def loadMaterialHash():
+def loadConfigHash():
 	input = open("./scripts/conversion.json", "r")
 	content = input.read()
 	return json.loads(content)
@@ -39,12 +39,20 @@ bpy.context.scene.render.engine='CYCLES'
 
 ## Loading materials 
 
-renamedMaterials = loadMaterialHash()
+config = loadConfigHash()
 
-for k,v in renamedMaterials['mapping'].items():
+for k,v in config['mapping'].items():
 	loadMaterial(v)
 	substituteMaterial(k,v)
 	print("Substituted "+k+" with "+v)
+
+
+## Setting up cameras
+
+if config['cameras'] != None:
+
+	camera = config['cameras'][0]
+	bpy.data.scenes['Scene'].camera = bpy.data.objects[camera] 
 
 
 ## Saving file

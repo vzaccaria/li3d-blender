@@ -51,9 +51,15 @@ _module = ->
       o "BESTA_Shelf_Glass"                   , "besta_mensola_vetro_ikea"       , vetro 
     ]
 
+    cameras = [
+      { source: "Camera1", dest: "cam1" }
+      { source: "Camera2", dest: "cam2" }
+    ]
+
           
     iface = { 
         matches: matches 
+        cameras: cameras
     }
   
     return iface
